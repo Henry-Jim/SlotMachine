@@ -52,7 +52,7 @@
                 while (true)
                 {
                     string input = Console.ReadLine();
-                    if (int.TryParse(input, out choice) && choice >= 1 && choice <= 5)
+                    if (int.TryParse(input, out choice) && choice >= CHOICE_CENTER && choice <= CHOICE_ALL_LINES)
                     {
                         break;
                     }

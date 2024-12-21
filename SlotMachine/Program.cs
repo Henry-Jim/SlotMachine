@@ -3,7 +3,7 @@
     internal class Program
     {
         const int MONEY_INITIAL = 50;
-        const int GRID_SIZE = 3;
+        const int GRID_SIZE_DEFAULT = 3;
         const int RANDOM_LIMIT = 5;
         const int PAYOUT = 1;
 
@@ -20,8 +20,6 @@
             Console.WriteLine("Welcome to the Slot Machine Game!");
 
             int playMoney = MONEY_INITIAL;
-
-            int[,] grid= new int[GRID_SIZE, GRID_SIZE];
 
             Random random = new Random();
 
@@ -40,6 +38,21 @@
                     Console.WriteLine("Invalid Wager. Please try again");
 
                 }
+
+                Console.WriteLine("Enter the grid size (e.g. 3 for 3x3)");
+                int gridSize = GRID_SIZE_DEFAULT;
+
+                while (true)
+                {
+                    string input = Console.ReadLine();
+                    if (int.TryParse(input, out gridSize) && gridSize > 0)
+                    {
+                        break;
+                    }
+                    Console.WriteLine("Invalid grid size. Please enter a number greater than 0");
+                }
+
+                int[,] grid = new int[gridSize, gridSize];
 
                 Console.WriteLine("Choose line to play by enter the number:");
                 Console.WriteLine("1: Center Line");
@@ -60,20 +73,19 @@
                 }
 
                 // Generate the grid
-                for (int i = 0; i < GRID_SIZE; i++)
+                for (int i = 0; i < gridSize; i++)
                 {
-                    for (int j = 0; j < GRID_SIZE; j++)
+                    for (int j = 0; j < gridSize; j++)
                     {
-                        int randomNum = random.Next(0, RANDOM_LIMIT);
-                        grid[i, j] = randomNum;
+                        grid[i, j] = random.Next(0, RANDOM_LIMIT);
                     }
                 }
 
                 // Print the grid
                 Console.WriteLine("Slot Machine Result:");
-                for (int i = 0; i < GRID_SIZE; i++)
+                for (int i = 0; i < gridSize; i++)
                 {
-                    for (int j = 0; j < GRID_SIZE; j++)
+                    for (int j = 0; j < gridSize; j++)
                     {
                         Console.Write(grid[i, j] + " ");
                     }
@@ -85,13 +97,23 @@
                 // Horizontal
                 if (choice == CHOICE_ALL_HORIZONTAL || choice == CHOICE_ALL_LINES)
                 {
-                    for (int i = 0; i < GRID_SIZE; i++)
+                    for (int i = 0; i < gridSize; i++)
                     {
-                        if (grid[i, 0] == grid[i, 1] && grid[i, 1] == grid[i, 2])
+                        bool win = true;
+                        for (int j = 1;j < gridSize; j++)
+                        {
+                            if (grid[i, j] != grid[i, j - 1])
+                            {
+                                win = false;
+                                break;
+                            }
+                        }
+                        if (win)
                         {
                             winnings += PAYOUT;
                         }
                     }
+                    
                 }
 
                 // Center
@@ -106,26 +128,66 @@
                 // Vertical
                 if (choice == CHOICE_ALL_VERTICAL || choice == CHOICE_ALL_LINES)
                 {
-                    for (int j = 0; j < GRID_SIZE; j++)
+                    for (int j = 0; j < gridSize; j++)
                     {
-                        if (grid[0, j] == grid[1, j] && grid[1, j] == grid[2, j])
+                        bool win = false;
+                        for (int i = 1; j < gridSize; i++)
+                        {
+                            if (grid[i, j] != grid[i -1, j])
+                            {
+                                win = false;
+                                break;
+                            }
+                        }
+                        if (win)
                         {
                             winnings += PAYOUT;
                         }
                     }
+                    
                 }
 
                 // Diagonal
                 if (choice == CHOICE_DIAGONAL || choice == CHOICE_ALL_LINES)
                 {
-                    if (grid[0, 0] == grid[1, 1] && grid[1, 1] == grid[2, 2])
+                    // Top-left to bottom-right diagonal
+                    bool DiagonalWin = true;
+                    for (int i = 1; i < gridSize; i++)
+                    {
+                        if (grid[i, i] != grid[i - 1, i - 1])
+                        {
+                            DiagonalWin = false;
+                            break;
+                        }
+                    }
+                    if (DiagonalWin)
                     {
                         winnings += PAYOUT;
                     }
-                    if ((grid[0, 2] == grid[1, 1] && grid[1, 1] == grid[2, 0]))
+
+                    // Top-right to bottom-left diagonal
+                    bool antiDiagonalWin = true;
+                    for (int i = 1; i < gridSize; i++)
+                    {
+                        if (grid[i, gridSize - i - 1] != grid[i - 1, gridSize - i])
+                        {
+                            antiDiagonalWin = false;
+                            break;
+                        }
+                    }
+                    if (antiDiagonalWin)
                     {
                         winnings += PAYOUT;
                     }
+
+                    //if (grid[0, 0] == grid[1, 1] && grid[1, 1] == grid[2, 2])
+                    //{
+                    //    winnings += PAYOUT;
+                    //}
+                    //if ((grid[0, 2] == grid[1, 1] && grid[1, 1] == grid[2, 0]))
+                    //{
+                    //    winnings += PAYOUT;
+                    //}
                 }
 
                 playMoney = playMoney - wager + winnings;

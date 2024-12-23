@@ -47,11 +47,11 @@
                 while (true)
                 {
                     string input = Console.ReadLine();
-                    if (int.TryParse(input, out gridSize) && gridSize > 0)
+                    if (int.TryParse(input, out gridSize) && gridSize > 0 && gridSize % 2 == 1)
                     {
                         break;
                     }
-                    Console.WriteLine("Invalid grid size. Please enter a number greater than 0");
+                    Console.WriteLine("Invalid grid size. Please enter an odd number greater than 0");
                 }
 
                 int[,] grid = new int[gridSize, gridSize];

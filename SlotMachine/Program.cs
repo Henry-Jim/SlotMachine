@@ -121,7 +121,18 @@
                 // Center
                 if (choice == CHOICE_CENTER || choice == CHOICE_ALL_LINES)
                 {
-                    if (grid[1, 0] == grid[1, 1] && grid[1, 1] == grid[1, 2])
+                    int midRow = gridSize / 2;
+                    bool win = true;
+
+                    for (int j = 1; j < gridSize; j++)
+                    {
+                        if (grid[midRow, j] != grid[midRow, j - 1])
+                        {
+                            win = false;
+                            break;
+                        }
+                    }
+                    if (win)
                     {
                         winnings += PAYOUT;
                     }

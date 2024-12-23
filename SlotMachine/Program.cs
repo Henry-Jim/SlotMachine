@@ -124,7 +124,7 @@
                     int midRow = gridSize / 2;
                     bool win = true;
 
-                    for (int j = 1; j < gridSize; j++)
+                    for (int j = 1; j < gridSize; j++) // Iterate through column in the center row
                     {
                         if (grid[midRow, j] != grid[midRow, j - 1])
                         {

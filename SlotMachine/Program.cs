@@ -55,11 +55,11 @@
                 int[,] grid = new int[gridSize, gridSize];
 
                 Console.WriteLine("Choose line to play by enter the number:");
-                Console.WriteLine("1: Center Line");
-                Console.WriteLine("2: All Horizontal Lines");
-                Console.WriteLine("3: All Vertical Lines");
-                Console.WriteLine("4: Diagonals");
-                Console.WriteLine("5: All Lines");
+                Console.WriteLine($"{CHOICE_CENTER}: Center Line");
+                Console.WriteLine($"{CHOICE_ALL_HORIZONTAL}: All Horizontal Lines");
+                Console.WriteLine($"{CHOICE_ALL_VERTICAL}: All Vertical Lines");
+                Console.WriteLine($"{CHOICE_DIAGONAL}: Diagonals");
+                Console.WriteLine($"{CHOICE_ALL_LINES}: All Lines");
                 int choice = 0;
 
                 while (true)

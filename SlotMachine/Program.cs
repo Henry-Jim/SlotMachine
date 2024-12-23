@@ -2,6 +2,8 @@
 {
     internal class Program
     {
+        const char PLAYAGAIN_NO = 'n';
+
         const int MONEY_INITIAL = 50;
         const int GRID_SIZE_DEFAULT = 3;
         const int RANDOM_LIMIT = 5;
@@ -201,7 +203,7 @@
 
                 Console.WriteLine("Do you want to play again? (y/n)");
                 char playAgain = Console.ReadKey().KeyChar;
-                if (playAgain == 'n')
+                if (playAgain == PLAYAGAIN_NO)
                 {
                     Console.WriteLine();
                     break;

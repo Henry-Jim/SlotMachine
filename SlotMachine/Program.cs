@@ -192,19 +192,19 @@
                     {
                         winnings += PAYOUT;
                     }
-
-                    //if (grid[0, 0] == grid[1, 1] && grid[1, 1] == grid[2, 2])
-                    //{
-                    //    winnings += PAYOUT;
-                    //}
-                    //if ((grid[0, 2] == grid[1, 1] && grid[1, 1] == grid[2, 0]))
-                    //{
-                    //    winnings += PAYOUT;
-                    //}
                 }
 
-                playMoney = playMoney - wager + winnings;
-                Console.WriteLine("You have won $" + winnings + "! You currently have $" + playMoney + ".");
+                playMoney -= wager; // Deduct wager first
+
+                if (winnings > 0) // Won money
+                {
+                    playMoney += (wager + winnings); // Return wager and add winnings
+                    Console.WriteLine($"Congrats! you have won{winnings}! Your wager is returned");
+                }
+                else
+                {
+                    Console.WriteLine($"Sorry, You just lost this round. Your loss for this wager is {wager}.");
+                }
 
                 if (playMoney <= 0)
                 {
